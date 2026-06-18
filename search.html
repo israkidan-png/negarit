@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>ነጋሪት · Search Ethiopian Laws</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500&family=Noto+Serif+Ethiopic:wght@400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css"/>
+<link rel="stylesheet" href="style.css"/>
+<style>
+.search-hero{background:var(--navy);padding:48px 40px 56px;position:relative;overflow:hidden}
+.search-hero-pattern{position:absolute;inset:0;opacity:.03;background-image:repeating-linear-gradient(45deg,#EABA05 0,#EABA05 1px,transparent 1px,transparent 12px),repeating-linear-gradient(-45deg,#EABA05 0,#EABA05 1px,transparent 1px,transparent 12px)}
+.search-hero-inner{position:relative;max-width:720px;margin:0 auto;text-align:center}
+.search-hero h1{font-family:'Playfair Display',serif;font-size:36px;font-weight:500;color:#F5F0E6;margin-bottom:8px}
+.search-hero h1 em{color:var(--gold);font-style:normal}
+.search-hero p{font-size:15px;color:rgba(245,240,230,.45);margin-bottom:28px}
+.sh-input{width:100%;padding:14px 18px;font-size:16px;border:0.5px solid rgba(245,240,230,.2);border-radius:var(--r);background:rgba(255,255,255,.08);color:#F5F0E6;font-family:inherit;outline:none;transition:border-color .13s}
+.sh-input:focus{border-color:rgba(234,186,5,.5);background:rgba(255,255,255,.12)}
+.sh-input::placeholder{color:rgba(245,240,230,.3)}
+.search-row-hero{display:flex;gap:8px}
+.sh-btn{background:var(--gold);color:var(--navy);border:none;padding:14px 22px;border-radius:var(--r);font-size:15px;font-weight:500;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:6px;transition:background .13s;white-space:nowrap}
+.sh-btn:hover{background:#F0C840}
+.filter-bar{background:var(--white);border-bottom:0.5px solid var(--border2);padding:14px 40px;display:flex;align-items:center;gap:10px;flex-wrap:wrap;position:sticky;top:60px;z-index:90}
+.filter-bar .fsel{font-size:13px;padding:7px 12px}
+.filter-label{font-size:12px;color:var(--faint);font-weight:500;margin-right:4px}
+.results-wrap{max-width:1060px;margin:0 auto;padding:32px 40px 80px}
+@media(max-width:700px){.search-hero{padding:32px 20px 40px}.filter-bar{padding:12px 20px}.results-wrap{padding:20px 20px 60px}}
+.sort-row{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;flex-wrap:wrap;gap:8px}
+.sort-info{font-size:13px;color:var(--faint)}
+.sort-sel{font-size:12px;padding:5px 10px;border:0.5px solid var(--border2);border-radius:var(--r);background:var(--parchment);color:var(--mid);font-family:inherit;cursor:pointer;outline:none}
+.cat-pills{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:18px}
+.cat-pill{font-size:12px;padding:5px 12px;border:0.5px solid var(--border2);border-radius:var(--rp);cursor:pointer;color:var(--mid);background:var(--white);transition:all .12s}
+.cat-pill:hover,.cat-pill.on{background:var(--navy);color:var(--parchment);border-color:var(--navy)}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="index.html" class="nav-brand"><div class="nav-logo"><i class="ti ti-scale"></i></div>ነጋሪት<span style="color:var(--gold)">.</span></a>
+  <div class="nav-links"><a href="index.html">Home</a><a href="index.html#library">Library</a><a href="index.html#features">Features</a><a href="index.html#founder">About</a></div>
+  <div class="nav-right">
+    <div class="lang-toggle"><button class="lang-btn on" onclick="applyLang('en')">EN</button><button class="lang-btn" onclick="applyLang('am')">አማርኛ</button></div>
+    <a href="index.html#waitlist" class="nav-waitlist">Join waitlist</a>
+  </div>
+</nav>
+
+<div class="search-hero">
+  <div class="search-hero-pattern"></div>
+  <div class="search-hero-inner">
+    <h1>Search <em>Ethiopian law</em></h1>
+    <p>Every federal proclamation, regulation, and directive — in Amharic and English</p>
+    <div class="search-row-hero">
+      <input class="sh-input" id="sq" type="search" placeholder="e.g. 'maternity leave' · 'investment' · 'የሠራተኛ ሕግ'" oninput="doSearch()" onkeydown="if(event.key==='Enter')doSearch()"/>
+      <button class="sh-btn" onclick="doSearch()"><i class="ti ti-search"></i>Search</button>
+    </div>
+  </div>
+</div>
+
+<div class="filter-bar">
+  <span class="filter-label">Filter:</span>
+  <select class="fsel" id="f-jur" onchange="doSearch()">
+    <option value="">All jurisdictions</option>
+    <option>Federal</option><option>Oromia</option><option>Amhara</option><option>Tigray</option><option>SNNPR</option><option>Addis Ababa</option>
+  </select>
+  <select class="fsel" id="f-status" onchange="doSearch()">
+    <option value="">All statuses</option>
+    <option>Active</option><option>Amended</option><option>Repealed</option>
+  </select>
+</div>
+
+<div class="results-wrap">
+  <div class="cat-pills" id="cat-pills">
+    <span class="cat-pill on" onclick="setCat('',this)">All</span>
+    <span class="cat-pill" onclick="setCat('Constitutional',this)">Constitutional</span>
+    <span class="cat-pill" onclick="setCat('Criminal',this)">Criminal</span>
+    <span class="cat-pill" onclick="setCat('Labour',this)">Labour</span>
+    <span class="cat-pill" onclick="setCat('Investment',this)">Investment</span>
+    <span class="cat-pill" onclick="setCat('Tax',this)">Tax</span>
+    <span class="cat-pill" onclick="setCat('Land',this)">Land</span>
+    <span class="cat-pill" onclick="setCat('Commercial',this)">Commercial</span>
+  </div>
+  <div class="sort-row">
+    <span class="sort-info" id="sort-info">Showing all 8 laws</span>
+    <select class="sort-sel" id="sort-sel" onchange="doSearch()">
+      <option value="date-desc">Newest first</option>
+      <option value="date-asc">Oldest first</option>
+      <option value="alpha">A–Z</option>
+    </select>
+  </div>
+  <div id="results"></div>
+  <div class="law-list" id="law-list"></div>
+</div>
+
+<footer class="footer">
+  <div style="max-width:1060px;margin:0 auto">
+    <div class="footer-bottom" style="border-top:none;padding-top:0">
+      <div class="fcopy">Built in Addis Ababa, Ethiopia · © 2026 ነጋሪት</div>
+      <a href="index.html" style="font-size:13px;color:rgba(245,240,230,.4);text-decoration:none">← Back to home</a>
+    </div>
+  </div>
+</footer>
+
+<button class="btt" id="btt" onclick="window.scrollTo({top:0,behavior:'smooth'})"><i class="ti ti-arrow-up"></i></button>
+
+<script src="laws-data.js"></script>
+<script>
+let activeCat = '';
+
+function setCat(cat, btn) {
+  activeCat = cat;
+  document.querySelectorAll('.cat-pill').forEach(p => p.classList.remove('on'));
+  btn.classList.add('on');
+  doSearch();
+}
+
+function doSearch() {
+  const q    = document.getElementById('sq').value.trim().toLowerCase();
+  const jur  = document.getElementById('f-jur').value;
+  const stat = document.getElementById('f-status').value;
+  const sort = document.getElementById('sort-sel').value;
+
+  let m = LAWS.filter(l => {
+    const txt = (l.title+' '+l.am+' '+(l.excerpt||'')+' '+l.no+' '+l.cat+' '+l.gazette).toLowerCase();
+    return (!q||txt.includes(q)) && (!jur||l.jur===jur) && (!stat||l.status===stat) && (!activeCat||l.cat===activeCat);
+  });
+
+  if (sort==='date-desc') m.sort((a,b)=>b.date.localeCompare(a.date));
+  else if (sort==='date-asc') m.sort((a,b)=>a.date.localeCompare(b.date));
+  else m.sort((a,b)=>a.title.localeCompare(b.title));
+
+  const info = document.getElementById('sort-info');
+  info.textContent = q ? `${m.length} result${m.length!==1?'s':''} for "${document.getElementById('sq').value}"` : `Showing ${m.length} law${m.length!==1?'s':''}`;
+  renderLaws(m);
+}
+
+// pre-fill from URL params
+const params = new URLSearchParams(window.location.search);
+if (params.get('q')) { document.getElementById('sq').value = params.get('q'); }
+doSearch();
+window.addEventListener('scroll',()=>document.getElementById('btt').classList.toggle('show',window.scrollY>300));
+</script>
+</body>
+</html>

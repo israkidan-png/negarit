@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>ነጋሪት · Law Detail</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500&family=Noto+Serif+Ethiopic:wght@400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css"/>
+<link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+<nav>
+  <a href="index.html" class="nav-brand"><div class="nav-logo"><i class="ti ti-scale"></i></div>ነጋሪት<span style="color:var(--gold)">.</span></a>
+  <div class="nav-links"><a href="index.html#search-section">Search</a><a href="index.html#library">Library</a><a href="index.html#features">Features</a></div>
+  <div class="nav-right">
+    <div class="lang-toggle"><button class="lang-btn on" onclick="applyLang('en')">EN</button><button class="lang-btn" onclick="applyLang('am')">አማርኛ</button></div>
+    <a href="index.html#waitlist" class="nav-waitlist">Join waitlist</a>
+  </div>
+</nav>
+
+<div class="law-detail-wrap" id="detail-wrap">
+  <div style="grid-column:1/-1;text-align:center;padding:60px 0;color:var(--faint)">Loading law…</div>
+</div>
+
+<footer class="footer">
+  <div style="max-width:1060px;margin:0 auto">
+    <div class="footer-bottom" style="border-top:none;padding-top:0">
+      <div class="fcopy">Built in Addis Ababa, Ethiopia · © 2026 ነጋሪት</div>
+      <div class="flang"><button class="flp on" onclick="applyLang('en')">English</button><button class="flp" onclick="applyLang('am')">አማርኛ</button></div>
+    </div>
+  </div>
+</footer>
+
+<button class="btt" id="btt" onclick="window.scrollTo({top:0,behavior:'smooth'})"><i class="ti ti-arrow-up"></i></button>
+
+<script src="laws-data.js"></script>
+<script>
+function renderDetail(law) {
+  const lang = document.documentElement.lang || 'en';
+  const isAm = lang === 'am';
+  const title   = isAm ? law.am    : law.title;
+  const subTitle= isAm ? law.title : law.am;
+  const excerpt = isAm ? (law.excerpt_am||law.excerpt) : law.excerpt;
+
+  document.title = `ነጋሪት · ${title}`;
+
+  // TOC
+  const tocHTML = (law.articles||[]).map(a =>
+    `<a class="toc-link" href="#art-${a.num.replace(/\s/g,'-')}">${a.num} — ${a.title}</a>`
+  ).join('');
+
+  // Articles
+  const articlesHTML = (law.articles||[]).map(a => `
+    <div class="law-article" id="art-${a.num.replace(/\s/g,'-')}">
+      <div class="law-article-num">${a.num}</div>
+      <div class="law-article-title">${a.title}</div>
+      <div class="law-article-body">${a.body}</div>
+    </div>`).join('');
+
+  // Amendments
+  const amendHTML = (law.amendments && law.amendments.length)
+    ? law.amendments.map(am => `
+        <div class="amend-item">
+          <div class="amend-proc">${am.proc}</div>
+          <div class="amend-date">${am.date}</div>
+          <div class="amend-summary">${isAm ? (am.summary_am||am.summary) : am.summary}</div>
+        </div>`).join('')
+    : `<p style="font-size:13px;color:var(--faint)">${t('law_detail_no_amend')}</p>`;
+
+  const statusMap = {Active:t('status_active'), Amended:t('status_amended'), Repealed:t('status_repealed')};
+  const statusCls = {Active:'b-green', Amended:'b-amber', Repealed:'b-red'};
+
+  document.getElementById('detail-wrap').innerHTML = `
+    <div class="law-detail-main">
+      <a href="index.html#library" class="law-detail-back"><i class="ti ti-arrow-left"></i>${t('law_detail_back')}</a>
+      <h1 class="law-detail-h1">${title}</h1>
+      <div class="law-detail-amh">${subTitle}</div>
+      <div class="law-detail-meta">
+        <span class="badge b-ink">${law.jur}</span>
+        <span class="badge b-blue">${law.cat}</span>
+        <span class="badge ${statusCls[law.status]||'b-ink'}">${statusMap[law.status]||law.status}</span>
+        ${law.amendments&&law.amendments.length?`<span class="badge b-amber">Amended ×${law.amendments.length}</span>`:''}
+      </div>
+      <p style="font-size:14px;color:var(--mid);line-height:1.7;margin-bottom:28px;padding-bottom:28px;border-bottom:.5px solid var(--border)">${excerpt}</p>
+      <div class="law-body">${articlesHTML}</div>
+      <div class="disclaimer-box">
+        <i class="ti ti-alert-triangle" style="flex-shrink:0;margin-top:1px"></i>
+        <span>${t('law_detail_disclaimer')}</span>
+      </div>
+    </div>
+
+    <div class="law-sidebar">
+      <div class="law-sidebar-card">
+        <div class="ls-label">${t('law_detail_source')}</div>
+        <div class="ls-value" style="font-size:12px;font-weight:400;color:var(--mid);margin-top:3px">${law.gazette}</div>
+      </div>
+      <div class="law-sidebar-card">
+        <div class="ls-label">${t('law_detail_effective')}</div>
+        <div class="ls-value">${law.date}</div>
+      </div>
+      <div class="law-sidebar-card">
+        <div class="ls-label">${t('law_detail_jurisdiction')}</div>
+        <div class="ls-value">${law.jur}</div>
+      </div>
+      <div class="law-sidebar-card">
+        <div class="ls-label">${t('law_detail_category')}</div>
+        <div class="ls-value">${law.cat}</div>
+      </div>
+      <div class="law-sidebar-card">
+        <div class="ls-label">${t('law_detail_akn')}</div>
+        <div class="akn-url" style="font-size:11px;margin-top:6px">
+          <i class="ti ti-link" style="color:var(--faint)"></i>
+          <span style="color:var(--faint)">${law.akn}</span>
+        </div>
+      </div>
+      <div class="law-sidebar-card">
+        <div class="ls-label" style="margin-bottom:10px">${t('law_detail_toc')}</div>
+        ${tocHTML}
+      </div>
+      <div class="law-sidebar-card">
+        <div class="ls-label" style="margin-bottom:10px">${t('law_detail_amendments')}</div>
+        ${amendHTML}
+      </div>
+      <button onclick="alert('PDF download available at launch')" class="btn-gold" style="width:100%;justify-content:center;margin-bottom:8px">
+        <i class="ti ti-download"></i>${t('law_detail_download')}
+      </button>
+      <button onclick="navigator.clipboard.writeText(window.location.href).then(()=>alert('Link copied!'))" class="btn-outline" style="width:100%;justify-content:center">
+        <i class="ti ti-share"></i>${t('law_detail_share')}
+      </button>
+    </div>`;
+}
+
+function loadLaw() {
+  const params = new URLSearchParams(window.location.search);
+  const id = params.get('id');
+  const law = LAWS.find(l => l.id === id);
+  if (!law) {
+    document.getElementById('detail-wrap').innerHTML =
+      `<div style="grid-column:1/-1;text-align:center;padding:80px 0">
+        <div style="font-size:48px;margin-bottom:16px">⚖️</div>
+        <div style="font-family:'Playfair Display',serif;font-size:24px;color:var(--ink);margin-bottom:8px">Law not found</div>
+        <div style="font-size:14px;color:var(--faint);margin-bottom:20px">The law ID "<code>${id||'unknown'}</code>" does not exist in the database.</div>
+        <a href="index.html#library" class="btn-gold" style="display:inline-flex">← Back to library</a>
+      </div>`;
+    return;
+  }
+  renderDetail(law);
+}
+
+loadLaw();
+window.addEventListener('scroll',()=>document.getElementById('btt').classList.toggle('show',window.scrollY>300));
+</script>
+</body>
+</html>
