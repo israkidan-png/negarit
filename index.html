@@ -1,694 +1,297 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>ነጋሪት · Negarit — Ethiopia's Law, Unified</title>
-  <meta name="description" content="Ethiopia's first unified legal information platform. Search laws, track amendments, find court decisions — in Amharic and English." />
-  <meta property="og:title" content="ነጋሪት · Negarit — Ethiopia's Law, Unified" />
-  <meta property="og:description" content="Ethiopia's first unified legal information platform. Every proclamation, directive, and court decision in one place." />
-  <meta property="og:type" content="website" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Inter:wght@400;500;600&family=Noto+Serif+Ethiopic:wght@400;700&display=swap" rel="stylesheet" />
-  <style>
-    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
-    :root {
-      --navy: #0B1F3A;
-      --navy-light: #122847;
-      --gold: #C9A84C;
-      --gold-light: #E0C06A;
-      --gold-pale: rgba(201,168,76,0.12);
-      --text-on-navy: #D6E4F0;
-      --muted-on-navy: #8BA3C0;
-      --white: #FFFFFF;
-      --bg: #F7F6F2;
-      --bg-card: #FFFFFF;
-      --text-dark: #1A1A2E;
-      --text-muted: #5A6478;
-      --border: rgba(0,0,0,0.08);
-    }
-
-    html { scroll-behavior: smooth; }
-
-    body {
-      font-family: 'Inter', sans-serif;
-      background: var(--bg);
-      color: var(--text-dark);
-      line-height: 1.7;
-    }
-
-    /* NAV */
-    nav {
-      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
-      background: rgba(11,31,58,0.97);
-      backdrop-filter: blur(8px);
-      display: flex; align-items: center; justify-content: space-between;
-      padding: 0 2rem; height: 60px;
-      border-bottom: 1px solid rgba(201,168,76,0.2);
-    }
-    .nav-logo { font-family: 'Noto Serif Ethiopic', serif; font-size: 22px; color: var(--gold); text-decoration: none; }
-    .nav-links { display: flex; gap: 2rem; list-style: none; }
-    .nav-links a { color: var(--muted-on-navy); text-decoration: none; font-size: 14px; transition: color 0.2s; }
-    .nav-links a:hover { color: var(--gold); }
-    .nav-cta { background: var(--gold); color: var(--navy); border: none; border-radius: 6px; padding: 8px 20px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: 'Inter', sans-serif; text-decoration: none; }
-    .nav-cta:hover { background: var(--gold-light); }
-
-    /* HERO */
-    .hero {
-      background: var(--navy);
-      padding: 7rem 2rem 5rem;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-    .hero::before {
-      content: '';
-      position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-      background: radial-gradient(ellipse at 50% 0%, rgba(201,168,76,0.08) 0%, transparent 70%);
-      pointer-events: none;
-    }
-    .hero-badge {
-      display: inline-block;
-      background: var(--gold-pale);
-      border: 1px solid rgba(201,168,76,0.3);
-      border-radius: 20px;
-      padding: 5px 18px;
-      font-size: 11px;
-      color: var(--gold);
-      letter-spacing: 2px;
-      text-transform: uppercase;
-      margin-bottom: 1.5rem;
-    }
-    .hero-drum { font-size: 64px; display: block; margin-bottom: 1rem; }
-    .hero-title {
-      font-family: 'Noto Serif Ethiopic', serif;
-      font-size: clamp(48px, 8vw, 80px);
-      font-weight: 700;
-      color: var(--gold);
-      letter-spacing: 4px;
-      line-height: 1.1;
-      margin-bottom: 0.25rem;
-    }
-    .hero-title-en {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(14px, 2vw, 18px);
-      color: var(--muted-on-navy);
-      letter-spacing: 6px;
-      text-transform: uppercase;
-      margin-bottom: 1rem;
-    }
-    .hero-amharic-line {
-      font-family: 'Noto Serif Ethiopic', serif;
-      font-size: clamp(15px, 2.2vw, 20px);
-      color: var(--gold-light);
-      margin-bottom: 1.5rem;
-      opacity: 0.85;
-    }
-    .hero-tagline {
-      font-size: clamp(16px, 2.5vw, 19px);
-      color: var(--text-on-navy);
-      max-width: 580px;
-      margin: 0 auto 2rem;
-      line-height: 1.75;
-    }
-    .hero-tagline em { color: var(--gold); font-style: normal; }
-    .btn-row { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
-    .btn-primary {
-      background: var(--gold); color: var(--navy);
-      border: none; border-radius: 8px;
-      padding: 14px 32px; font-size: 15px; font-weight: 600;
-      cursor: pointer; font-family: 'Inter', sans-serif;
-      text-decoration: none; display: inline-block;
-      transition: background 0.2s, transform 0.1s;
-    }
-    .btn-primary:hover { background: var(--gold-light); transform: translateY(-1px); }
-    .btn-outline {
-      background: transparent; color: var(--gold);
-      border: 1.5px solid var(--gold); border-radius: 8px;
-      padding: 13px 32px; font-size: 15px; font-weight: 500;
-      cursor: pointer; font-family: 'Inter', sans-serif;
-      text-decoration: none; display: inline-block;
-      transition: background 0.2s, transform 0.1s;
-    }
-    .btn-outline:hover { background: var(--gold-pale); transform: translateY(-1px); }
-
-    /* WAVE */
-    .wave-divider { display: block; width: 100%; height: 48px; }
-
-    /* PROBLEM STRIP */
-    .problem-strip {
-      background: var(--navy-light);
-      padding: 2.5rem 2rem;
-      text-align: center;
-    }
-    .problem-strip p {
-      color: var(--text-on-navy);
-      font-size: 16px;
-      max-width: 640px;
-      margin: 0 auto;
-      line-height: 1.8;
-    }
-    .problem-strip strong { color: var(--gold); }
-
-    /* STATS */
-    .stats-row {
-      display: flex; justify-content: center; gap: 2rem;
-      flex-wrap: wrap; padding: 2.5rem 2rem;
-      background: var(--bg);
-      border-bottom: 1px solid var(--border);
-    }
-    .stat-box { text-align: center; }
-    .stat-num {
-      font-family: 'Playfair Display', serif;
-      font-size: 40px; font-weight: 700; color: var(--gold);
-      display: block;
-    }
-    .stat-label { font-size: 13px; color: var(--text-muted); letter-spacing: 1px; text-transform: uppercase; }
-
-    /* SECTIONS */
-    section { padding: 4rem 2rem; }
-    .section-inner { max-width: 960px; margin: 0 auto; }
-    .section-eyebrow {
-      font-size: 11px; letter-spacing: 3px; text-transform: uppercase;
-      color: var(--gold); text-align: center; margin-bottom: 0.5rem;
-    }
-    .section-title {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(24px, 4vw, 34px); font-weight: 700;
-      color: var(--text-dark); text-align: center;
-      margin-bottom: 0.5rem;
-    }
-    .section-sub {
-      font-size: 15px; color: var(--text-muted);
-      text-align: center; margin-bottom: 3rem;
-      max-width: 520px; margin-left: auto; margin-right: auto;
-    }
-    .gold-line { width: 48px; height: 3px; background: var(--gold); margin: 1rem auto 2rem; border-radius: 2px; }
-
-    /* FEATURES */
-    .features-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-      gap: 20px;
-    }
-    .feature-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 1.5rem;
-      transition: border-color 0.2s, transform 0.2s;
-    }
-    .feature-card:hover { border-color: var(--gold); transform: translateY(-2px); }
-    .feature-icon {
-      width: 44px; height: 44px;
-      background: var(--gold-pale);
-      border-radius: 10px;
-      display: flex; align-items: center; justify-content: center;
-      font-size: 20px; margin-bottom: 1rem;
-    }
-    .feature-title { font-size: 15px; font-weight: 600; color: var(--text-dark); margin-bottom: 6px; }
-    .feature-desc { font-size: 13px; color: var(--text-muted); line-height: 1.65; }
-
-    /* USERS */
-    .users-grid { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; }
-    .user-pill {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 24px;
-      padding: 10px 20px;
-      font-size: 13px; color: var(--text-muted);
-      display: flex; align-items: center; gap: 8px;
-      transition: border-color 0.2s;
-    }
-    .user-pill:hover { border-color: var(--gold); color: var(--text-dark); }
-    .user-pill span.icon { font-size: 16px; }
-
-    /* NAVY SECTION */
-    .navy-section { background: var(--navy); }
-    .navy-section .section-title { color: var(--text-on-navy); }
-    .navy-section .section-sub { color: var(--muted-on-navy); }
-
-    /* REVENUE */
-    .revenue-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 16px;
-    }
-    .revenue-card {
-      background: rgba(255,255,255,0.05);
-      border: 1px solid rgba(201,168,76,0.2);
-      border-radius: 12px;
-      padding: 1.25rem;
-    }
-    .revenue-card-title { font-size: 14px; font-weight: 600; color: var(--gold); margin-bottom: 6px; }
-    .revenue-card-desc { font-size: 13px; color: var(--muted-on-navy); line-height: 1.6; }
-
-    /* FOUNDER */
-    .founder-card {
-      background: var(--bg-card);
-      border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 2rem;
-      display: flex;
-      gap: 2rem;
-      align-items: flex-start;
-      max-width: 760px;
-      margin: 0 auto;
-    }
-    .founder-avatar {
-      width: 80px; height: 80px; min-width: 80px;
-      border-radius: 50%;
-      background: var(--navy);
-      display: flex; align-items: center; justify-content: center;
-      font-family: 'Noto Serif Ethiopic', serif;
-      font-size: 28px; color: var(--gold);
-      border: 3px solid var(--gold);
-    }
-    .founder-name { font-size: 18px; font-weight: 600; color: var(--text-dark); margin-bottom: 4px; }
-    .founder-role { font-size: 13px; color: var(--gold); margin-bottom: 12px; font-weight: 500; }
-    .founder-bio { font-size: 14px; color: var(--text-muted); line-height: 1.7; margin-bottom: 1rem; }
-    .founder-creds {
-      display: flex; flex-wrap: wrap; gap: 8px;
-    }
-    .cred-badge {
-      background: var(--gold-pale);
-      border: 1px solid rgba(201,168,76,0.3);
-      border-radius: 20px;
-      padding: 4px 12px;
-      font-size: 11px;
-      color: #8B6914;
-      font-weight: 500;
-    }
-
-    /* WAITLIST FORM */
-    .waitlist-form {
-      max-width: 480px;
-      margin: 0 auto;
-    }
-    .form-row {
-      display: flex; gap: 10px; flex-wrap: wrap;
-      margin-bottom: 12px;
-    }
-    .form-row input, .waitlist-form select {
-      flex: 1; min-width: 180px;
-      background: rgba(255,255,255,0.08);
-      border: 1px solid rgba(201,168,76,0.3);
-      border-radius: 8px;
-      padding: 12px 16px;
-      font-size: 14px;
-      color: var(--text-on-navy);
-      font-family: 'Inter', sans-serif;
-      outline: none;
-      transition: border-color 0.2s;
-    }
-    .form-row input::placeholder { color: var(--muted-on-navy); }
-    .form-row input:focus, .waitlist-form select:focus { border-color: var(--gold); }
-    .waitlist-form select {
-      width: 100%; margin-bottom: 12px;
-      background: rgba(255,255,255,0.08);
-      color: var(--muted-on-navy);
-      cursor: pointer;
-    }
-    .waitlist-form select option { background: var(--navy); color: var(--text-on-navy); }
-    .form-submit {
-      width: 100%;
-      background: var(--gold); color: var(--navy);
-      border: none; border-radius: 8px;
-      padding: 14px; font-size: 15px; font-weight: 600;
-      cursor: pointer; font-family: 'Inter', sans-serif;
-      transition: background 0.2s;
-    }
-    .form-submit:hover { background: var(--gold-light); }
-    .form-success {
-      display: none;
-      text-align: center;
-      padding: 1.5rem;
-      background: rgba(201,168,76,0.1);
-      border: 1px solid rgba(201,168,76,0.3);
-      border-radius: 12px;
-      color: var(--gold);
-      font-size: 15px;
-    }
-    .form-note { font-size: 12px; color: var(--muted-on-navy); text-align: center; margin-top: 10px; }
-
-    /* CTA SECTION */
-    .cta-section {
-      background: var(--gold);
-      padding: 4rem 2rem;
-      text-align: center;
-    }
-    .cta-section h2 {
-      font-family: 'Playfair Display', serif;
-      font-size: clamp(24px, 4vw, 36px);
-      font-weight: 700;
-      color: var(--navy);
-      margin-bottom: 0.75rem;
-    }
-    .cta-section p { color: var(--navy); font-size: 16px; margin-bottom: 2rem; opacity: 0.8; }
-    .btn-navy {
-      background: var(--navy); color: var(--gold);
-      border: none; border-radius: 8px;
-      padding: 14px 36px; font-size: 15px; font-weight: 600;
-      cursor: pointer; font-family: 'Inter', sans-serif;
-      text-decoration: none; display: inline-block;
-      margin: 6px; transition: background 0.2s;
-    }
-    .btn-navy:hover { background: var(--navy-light); }
-    .btn-navy-outline {
-      background: transparent; color: var(--navy);
-      border: 2px solid var(--navy); border-radius: 8px;
-      padding: 12px 36px; font-size: 15px; font-weight: 600;
-      cursor: pointer; font-family: 'Inter', sans-serif;
-      text-decoration: none; display: inline-block;
-      margin: 6px; transition: background 0.2s;
-    }
-    .btn-navy-outline:hover { background: rgba(11,31,58,0.08); }
-
-    /* FOOTER */
-    footer {
-      background: var(--navy);
-      padding: 3rem 2rem 2rem;
-      text-align: center;
-      border-top: 1px solid rgba(201,168,76,0.2);
-    }
-    .footer-logo { font-family: 'Noto Serif Ethiopic', serif; font-size: 28px; color: var(--gold); margin-bottom: 0.5rem; }
-    .footer-tagline { font-size: 13px; color: var(--muted-on-navy); margin-bottom: 1.5rem; }
-    .footer-links { display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap; margin-bottom: 1rem; }
-    .footer-links a { color: var(--muted-on-navy); text-decoration: none; font-size: 13px; }
-    .footer-links a:hover { color: var(--gold); }
-    .footer-social { display: flex; gap: 1rem; justify-content: center; margin-bottom: 1.5rem; }
-    .social-btn {
-      display: flex; align-items: center; gap: 6px;
-      background: rgba(255,255,255,0.06);
-      border: 1px solid rgba(201,168,76,0.2);
-      border-radius: 20px;
-      padding: 6px 14px;
-      font-size: 12px; color: var(--muted-on-navy);
-      text-decoration: none;
-      transition: border-color 0.2s, color 0.2s;
-    }
-    .social-btn:hover { border-color: var(--gold); color: var(--gold); }
-    .footer-copy { font-size: 12px; color: rgba(139,163,192,0.5); }
-
-    /* MOBILE */
-    @media (max-width: 640px) {
-      nav { padding: 0 1rem; }
-      .nav-links { display: none; }
-      .hero { padding: 6rem 1.25rem 4rem; }
-      section { padding: 3rem 1.25rem; }
-      .stats-row { gap: 1.5rem; }
-      .founder-card { flex-direction: column; align-items: center; text-align: center; }
-      .founder-creds { justify-content: center; }
-    }
-
-    /* ANIMATIONS */
-    .fade-up { opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
-    .fade-up.visible { opacity: 1; transform: translateY(0); }
-  </style>
+<meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<meta name="description" content="Ethiopia's first unified legal information platform. Search federal and regional laws in Amharic and English."/>
+<meta property="og:title" content="ነጋሪት · Negarit — Ethiopia's Law, Unified"/>
+<meta property="og:description" content="Every Ethiopian proclamation, directive, and court decision in one place. Free for citizens."/>
+<meta property="og:type" content="website"/>
+<title>ነጋሪት · Negarit — Ethiopia's Law, Unified</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500&family=Noto+Serif+Ethiopic:wght@400;500&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css"/>
+<link rel="stylesheet" href="style.css"/>
 </head>
 <body>
 
-<!-- NAV -->
 <nav>
-  <a class="nav-logo" href="#">ነጋሪት</a>
-  <ul class="nav-links">
-    <li><a href="#features">Features</a></li>
-    <li><a href="#users">Who it's for</a></li>
-    <li><a href="#founder">About</a></li>
-    <li><a href="#waitlist">Join waitlist</a></li>
-  </ul>
-  <a class="nav-cta" href="#waitlist">Join waitlist</a>
+  <a href="index.html" class="nav-brand"><div class="nav-logo"><i class="ti ti-scale"></i></div>ነጋሪት<span style="color:var(--gold)">.</span></a>
+  <div class="nav-links">
+    <a href="#search-section" data-i18n="nav_search">Search</a>
+    <a href="#features" data-i18n="nav_features">Features</a>
+    <a href="#users" data-i18n="nav_users">Who it's for</a>
+    <a href="#founder" data-i18n="nav_about">About</a>
+  </div>
+  <div class="nav-right">
+    <div class="lang-toggle">
+      <button class="lang-btn on" onclick="applyLang('en')">EN</button>
+      <button class="lang-btn" onclick="applyLang('am')">አማርኛ</button>
+    </div>
+    <a href="#waitlist" class="nav-waitlist" data-i18n="nav_waitlist">Join waitlist</a>
+  </div>
 </nav>
 
-<!-- HERO -->
-<div class="hero">
-  <span class="hero-badge">🥁 Coming soon · Ethiopia's legal platform</span>
-  <span class="hero-drum">🥁</span>
-  <h1 class="hero-title">ነጋሪት</h1>
-  <p class="hero-title-en">Negarit · Ethiopia's Law, Unified</p>
-  <p class="hero-amharic-line">የኢትዮጵያ ሕጎች — በአንድ ቦታ፣ ለሁሉም</p>
-  <p class="hero-tagline">
-    The drum that once called Ethiopians to hear the law
-    now calls them to <em>find it</em> — every proclamation,
-    directive, and court decision, in one place.
-  </p>
-  <div class="btn-row">
-    <a class="btn-primary" href="#waitlist">Join the waitlist</a>
-    <a class="btn-outline" href="#features">Explore the platform</a>
+<section class="hero">
+  <div class="hero-pattern"></div>
+  <div class="hero-in">
+    <div class="hero-badge"><i class="ti ti-shield-check"></i><span data-i18n="hero_badge">Ethiopia's Legal Information Platform</span></div>
+    <h1 class="hero-h1"><span data-i18n="hero_h1a">Ethiopia's law,</span><br><em data-i18n="hero_h1b">unified.</em></h1>
+    <span class="hero-amh" data-i18n="hero_amh">የኢትዮጵያ ሕጎች — በአንድ ቦታ፣ ለሁሉም</span>
+    <p class="hero-sub" data-i18n="hero_sub">The drum that once called Ethiopians to hear the law now calls them to find it — every proclamation, directive, and court decision, searchable in Amharic and English, free for citizens.</p>
+    <div class="hero-ctas">
+      <a href="#search-section" class="btn-gold"><i class="ti ti-search"></i><span data-i18n="search_btn">Search</span></a>
+      <a href="#waitlist" class="btn-ghost"><span data-i18n="nav_waitlist">Join the waitlist</span> <i class="ti ti-arrow-right"></i></a>
+    </div>
+    <div class="hero-stats">
+      <div><div class="hs-n" data-i18n="hero_s1n">1,000+</div><div class="hs-l" data-i18n="hero_s1l">Federal proclamations</div></div>
+      <div><div class="hs-n" data-i18n="hero_s2n">11</div><div class="hs-l" data-i18n="hero_s2l">Regional jurisdictions</div></div>
+      <div><div class="hs-n" data-i18n="hero_s3n">EN/AM</div><div class="hs-l" data-i18n="hero_s3l">Full bilingual access</div></div>
+      <div><div class="hs-n" data-i18n="hero_s4n">Free</div><div class="hs-l" data-i18n="hero_s4l">Always, for citizens</div></div>
+    </div>
   </div>
+</section>
+
+<div class="trust-bar">
+  <div class="ti-item"><i class="ti ti-file-certificate"></i><span><span data-i18n="trust1">Data sourced from</span> <strong data-i18n="trust1b">Federal Negarit Gazette</strong></span></div>
+  <div class="ti-item"><i class="ti ti-refresh"></i><span><span data-i18n="trust2">Updated within</span> <strong data-i18n="trust2b">48 hrs</strong> <span data-i18n="trust2c">of new proclamations</span></span></div>
+  <div class="ti-item"><i class="ti ti-certificate"></i><span><span data-i18n="trust3">AKN-standard</span> <strong data-i18n="trust3b">permanent, citable URLs</strong></span></div>
+  <div class="ti-item"><i class="ti ti-lock-open"></i><span><strong data-i18n="trust4b">Free and open</strong> <span data-i18n="trust4c">access — always</span></span></div>
+  <div class="ti-item"><i class="ti ti-device-mobile"></i><span><span data-i18n="trust5">Works</span> <strong data-i18n="trust5b">offline</strong> <span data-i18n="trust5c">— built for Ethiopia</span></span></div>
 </div>
 
-<!-- WAVE -->
-<svg class="wave-divider" viewBox="0 0 1440 48" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none">
-  <path d="M0,48 L0,24 Q360,0 720,24 Q1080,48 1440,24 L1440,48 Z" fill="#0B1F3A"/>
-</svg>
-
-<!-- PROBLEM -->
 <div class="problem-strip">
-  <p>
-    Ethiopian law exists. <strong>Finding it is the problem.</strong><br/>
-    Laws are scattered across PDFs, unofficial blogs, and expensive print volumes —
-    with no central system tracking amendments or surfacing court precedents.
-    The result: legal uncertainty for professionals and zero access for citizens.
+  <div class="ps-inner">
+    <div class="ps-stat"><div class="ps-num" data-i18n="ps1n">1,000+</div><div class="ps-label" data-i18n="ps1l">Federal proclamations in existence</div></div>
+    <div class="ps-stat"><div class="ps-num gold" data-i18n="ps2n">0</div><div class="ps-label" data-i18n="ps2l">Central databases tracking amendments</div></div>
+    <div class="ps-stat"><div class="ps-num" data-i18n="ps3n">9+</div><div class="ps-label" data-i18n="ps3l">Regional states, separate statute books</div></div>
+    <div class="ps-stat"><div class="ps-num" data-i18n="ps4n">120M+</div><div class="ps-label" data-i18n="ps4l">Citizens without meaningful legal access</div></div>
+  </div>
+</div>
+
+<div class="search-wrap" id="search-section">
+  <div class="search-label"><i class="ti ti-search"></i><span data-i18n="search_label">Search all Ethiopian laws</span></div>
+  <div class="search-row">
+    <input class="search-input" id="sq" type="search" data-i18n-ph="search_ph" placeholder="e.g. 'maternity leave' · 'investment proclamation' · 'የሠራተኛ ሕግ'" oninput="doSearch()" onkeydown="if(event.key==='Enter')doSearch()"/>
+    <button class="search-btn" onclick="doSearch()"><i class="ti ti-arrow-right"></i><span data-i18n="search_btn">Search</span></button>
+  </div>
+  <div class="search-filters">
+    <select class="fsel" id="f-jur" onchange="doSearch()">
+      <option value="" data-i18n="f_jur">All jurisdictions</option>
+      <option>Federal</option><option>Oromia</option><option>Amhara</option><option>Tigray</option><option>SNNPR</option><option>Addis Ababa</option>
+    </select>
+    <select class="fsel" id="f-cat" onchange="doSearch()">
+      <option value="" data-i18n="f_cat">All categories</option>
+      <option>Labour</option><option>Investment</option><option>Tax</option><option>Land</option><option>Criminal</option><option>Commercial</option><option>Constitutional</option>
+    </select>
+    <select class="fsel" id="f-status" onchange="doSearch()">
+      <option value="" data-i18n="f_status">All statuses</option>
+      <option>Active</option><option>Amended</option><option>Repealed</option>
+    </select>
+  </div>
+  <div id="results"></div>
+  <div class="search-tags" id="stags">
+    <span class="tag-l" data-i18n="try_label">Try:</span>
+    <span class="stag" onclick="fillSearch('investment proclamation')">Investment proclamation</span>
+    <span class="stag" onclick="fillSearch('maternity leave')">Maternity leave</span>
+    <span class="stag" onclick="fillSearch('land lease')">Land lease</span>
+    <span class="stag" onclick="fillSearch('criminal code')">Criminal code</span>
+    <span class="stag" onclick="fillSearch('የሠራተኛ ሕግ')">የሠራተኛ ሕግ</span>
+    <span class="stag" onclick="fillSearch('digital financial')">Digital financial</span>
+  </div>
+</div>
+
+<div class="wrap">
+<div class="sec">
+  <div class="ey" data-i18n="akn_title">Citable permanent URLs</div>
+  <div class="h2" data-i18n="akn_h">Every law gets a stable address</div>
+  <p class="desc" data-i18n="akn_desc">Following the Akoma Ntoso (AKN) standard used by Kenya Law and Laws.Africa, every Ethiopian law on Negarit has a structured, permanent URL that lawyers and academics can cite in briefs, papers, and court submissions.</p>
+  <div class="g2">
+    <div><p style="font-size:13px;color:var(--mid);margin-bottom:8px" data-i18n="akn_ex1">Investment Proclamation No. 1180/2020 — English text:</p><div class="akn-url"><i class="ti ti-link" style="color:var(--faint);flex-shrink:0"></i><span class="seg-grey">negarit.et/akn/</span><span class="seg-blue">et</span><span class="seg-grey">/act/</span><span class="seg-green">2020/1180</span><span class="seg-grey">/</span><span class="seg-blue">eng</span></div></div>
+    <div><p style="font-size:13px;color:var(--mid);margin-bottom:8px" data-i18n="akn_ex2">Same law, as it stood on 1 Jan 2023 — Amharic:</p><div class="akn-url"><i class="ti ti-link" style="color:var(--faint);flex-shrink:0"></i><span class="seg-grey">negarit.et/akn/</span><span class="seg-blue">et</span><span class="seg-grey">/act/</span><span class="seg-green">2020/1180</span><span class="seg-grey">/</span><span class="seg-blue">amh</span><span class="seg-grey">@2023-01-01</span></div></div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<div class="sec" id="library">
+  <div class="ey" data-i18n="lib_ey">Law library — preview</div>
+  <div class="h2" data-i18n="lib_h">Sample from the database</div>
+  <p class="desc" data-i18n="lib_desc">Every entry cites its source Negarit Gazette volume and issue — the reference standard lawyers and courts require.</p>
+  <div class="law-list" id="law-list"></div>
+  <p style="font-size:13px;color:var(--faint);text-align:center;margin-top:18px;padding-top:18px;border-top:.5px solid var(--border)">
+    Showing 8 of 1,000+ laws. Full access at launch. <a href="#waitlist" style="color:var(--navy);font-weight:500" data-i18n="lib_join">Join the waitlist →</a>
   </p>
 </div>
 
-<!-- STATS -->
-<div class="stats-row">
-  <div class="stat-box fade-up">
-    <span class="stat-num">1,000+</span>
-    <span class="stat-label">Federal proclamations</span>
-  </div>
-  <div class="stat-box fade-up">
-    <span class="stat-num">9</span>
-    <span class="stat-label">Regional states</span>
-  </div>
-  <div class="stat-box fade-up">
-    <span class="stat-num">0</span>
-    <span class="stat-label">Central databases</span>
-  </div>
-  <div class="stat-box fade-up">
-    <span class="stat-num">120M+</span>
-    <span class="stat-label">Citizens without access</span>
+<div class="divider"></div>
+
+<div class="sec" id="diff-section">
+  <div class="ey" data-i18n="diff_ey">See it in action</div>
+  <div class="h2" data-i18n="diff_h">Amendment tracker — live example</div>
+  <p class="desc" data-i18n="diff_desc">The most powerful feature on Negarit — and the one that exists nowhere else in Ethiopia.</p>
+  <div class="diff-box">
+    <div class="diff-header">
+      <i class="ti ti-git-compare" style="color:var(--mid);font-size:16px"></i>
+      <span class="diff-title">Labour Proclamation — Article 34: Maternity Leave</span>
+      <span class="badge b-red">Proc. 377/2003</span>
+      <span style="color:var(--faint);font-size:12px">→</span>
+      <span class="badge b-green">Proc. 1156/2019</span>
+      <span style="margin-left:auto;font-size:11px;color:var(--faint)" data-i18n="diff_effective">Effective: 7 Oct 2019</span>
+    </div>
+    <div class="diff-cols">
+      <div class="diff-col">
+        <div class="diff-col-label dl-old-lbl" data-i18n="diff_before">Before — Proc. 377/2003</div>
+        <span class="dl dl-same">A female worker shall be entitled to</span>
+        <span class="dl dl-rem">45 days of maternity leave</span>
+        <span class="dl dl-same">with full pay, of which</span>
+        <span class="dl dl-rem">at least 30 days</span>
+        <span class="dl dl-same">shall be taken after confinement.</span>
+      </div>
+      <div class="diff-col">
+        <div class="diff-col-label dl-new-lbl" data-i18n="diff_after">After — Proc. 1156/2019</div>
+        <span class="dl dl-same">A female worker shall be entitled to</span>
+        <span class="dl dl-add">120 days of maternity leave</span>
+        <span class="dl dl-same">with full pay, of which</span>
+        <span class="dl dl-add">at least 60 days</span>
+        <span class="dl dl-same">shall be taken after confinement.</span>
+      </div>
+    </div>
+    <div class="diff-footer">
+      <span class="diff-source"><i class="ti ti-news"></i><span data-i18n="diff_source">Federal Negarit Gazette — Vol. 25, No. 37, October 7, 2019</span></span>
+      <a href="law.html?id=labour-1156-2019" class="read-link"><span data-i18n="diff_link">View full amendment history</span> <i class="ti ti-arrow-right"></i></a>
+    </div>
   </div>
 </div>
 
-<!-- FEATURES -->
-<section id="features" style="background: var(--bg);">
-  <div class="section-inner">
-    <p class="section-eyebrow fade-up">The platform</p>
-    <h2 class="section-title fade-up">What ነጋሪት does</h2>
-    <p class="section-sub fade-up">Six tools that change how Ethiopia accesses law</p>
-    <div class="gold-line fade-up"></div>
-    <div class="features-grid">
-      <div class="feature-card fade-up">
-        <div class="feature-icon">📚</div>
-        <p class="feature-title">Centralized legal library</p>
-        <p class="feature-desc">All federal laws, regulations, directives, and regional statutes in one searchable place — updated in real time.</p>
-      </div>
-      <div class="feature-card fade-up">
-        <div class="feature-icon">🔄</div>
-        <p class="feature-title">Amendment tracking</p>
-        <p class="feature-desc">See every version of every law with before/after comparisons, effective dates, and repeal history.</p>
-      </div>
-      <div class="feature-card fade-up">
-        <div class="feature-icon">⚖️</div>
-        <p class="feature-title">Court decisions</p>
-        <p class="feature-desc">Federal Supreme Court and High Court decisions with extracted legal principles and plain-language summaries.</p>
-      </div>
-      <div class="feature-card fade-up">
-        <div class="feature-icon">🌐</div>
-        <p class="feature-title">Amharic & English</p>
-        <p class="feature-desc">Full content in both languages. Key legal terms translated, explained, and cross-referenced.</p>
-      </div>
-      <div class="feature-card fade-up">
-        <div class="feature-icon">📄</div>
-        <p class="feature-title">Legal form builder</p>
-        <p class="feature-desc">Downloadable, editable templates for contracts, affidavits, court pleadings, and corporate documents.</p>
-      </div>
-      <div class="feature-card fade-up">
-        <div class="feature-icon">📶</div>
-        <p class="feature-title">Offline access</p>
-        <p class="feature-desc">Access laws without internet — built for Ethiopia's connectivity reality, including remote regions.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- WHO IT'S FOR -->
-<section id="users" style="background: white;">
-  <div class="section-inner">
-    <p class="section-eyebrow fade-up">Who it's for</p>
-    <h2 class="section-title fade-up">Built for everyone</h2>
-    <p class="section-sub fade-up">From the Federal Supreme Court to the citizen who just needs to understand their rights</p>
-    <div class="gold-line fade-up"></div>
-    <div class="users-grid fade-up">
-      <div class="user-pill"><span class="icon">💼</span> Lawyers & legal researchers</div>
-      <div class="user-pill"><span class="icon">🏛️</span> Judges & court clerks</div>
-      <div class="user-pill"><span class="icon">🎓</span> Law students & academics</div>
-      <div class="user-pill"><span class="icon">📊</span> Business compliance officers</div>
-      <div class="user-pill"><span class="icon">🏢</span> Government agencies & policy makers</div>
-      <div class="user-pill"><span class="icon">📰</span> Journalists & civil society</div>
-      <div class="user-pill"><span class="icon">👤</span> General citizens</div>
-    </div>
-  </div>
-</section>
-
-<!-- FOUNDER -->
-<section id="founder" style="background: var(--bg);">
-  <div class="section-inner">
-    <p class="section-eyebrow fade-up">Who is behind this</p>
-    <h2 class="section-title fade-up">Built by a legal professional, for Ethiopia</h2>
-    <div class="gold-line fade-up"></div>
-    <div class="founder-card fade-up">
-      <div class="founder-avatar">ኢ</div>
-      <div>
-        <p class="founder-name">Israel Woldekidan Haileyesus</p>
-        <p class="founder-role">Legal Professional · Legal Researcher</p>
-        <p class="founder-bio">
-          Israel Woldekidan is a legal professional based in Addis Ababa with over a decade of experience
-          in legal practice and university teaching. He holds an LLM in Business and Corporate Law
-          from Bahir Dar University and currently serves as Corporate Lawyer. He has many published
-          peer-reviewed legal research papers and international certifications in FinTech Law,
-          AI & Law, Privacy Law, and Digital Governance.
-        </p>
-        <p class="founder-bio" style="margin-top: 0.75rem;">
-          Israel is also the founder of <strong>ሕጉ ምን ይላል?</strong> (What Does the Law Say?) —
-          an Amharic-language legal education channel on TikTok and YouTube, making Ethiopian law
-          accessible to ordinary citizens. ነጋሪት is the natural extension of that mission.
-        </p>
-        <div class="founder-creds">
-          <span class="cred-badge">LLM · Bahir Dar University</span>
-          <span class="cred-badge">FinTech Law · Duke University</span>
-          <span class="cred-badge">AI & Law · Lund University</span>
-          <span class="cred-badge">Privacy Law · UPenn</span>
-          <span class="cred-badge">Digital Governance · Leeds</span>
-          <span class="cred-badge">5 Published Papers</span>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- REVENUE -->
-<section id="vision" class="navy-section">
-  <div class="section-inner">
-    <p class="section-eyebrow fade-up" style="color: var(--gold);">Sustainability</p>
-    <h2 class="section-title fade-up">How ነጋሪት sustains itself</h2>
-    <p class="section-sub fade-up">Core access remains free for citizens. Revenue comes from institutions that benefit most.</p>
-    <div class="gold-line fade-up"></div>
-    <div class="revenue-grid">
-      <div class="revenue-card fade-up">
-        <p class="revenue-card-title">Premium subscriptions</p>
-        <p class="revenue-card-desc">Advanced search filters, bulk downloads, and API access for law firms and corporations.</p>
-      </div>
-      <div class="revenue-card fade-up">
-        <p class="revenue-card-title">Institutional licensing</p>
-        <p class="revenue-card-desc">Annual licenses for universities, government ministries, and court systems.</p>
-      </div>
-      <div class="revenue-card fade-up">
-        <p class="revenue-card-title">Legal form services</p>
-        <p class="revenue-card-desc">Paid certified document delivery integrated with ministry e-services.</p>
-      </div>
-      <div class="revenue-card fade-up">
-        <p class="revenue-card-title">Donor & grant funding</p>
-        <p class="revenue-card-desc">UNDP, EU, GIZ, and rule-of-law programs actively fund platforms like ነጋሪት.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- WAITLIST -->
-<section id="waitlist" class="navy-section" style="padding-top: 0;">
-  <div class="section-inner">
-    <p class="section-eyebrow fade-up" style="color: var(--gold);">Early access</p>
-    <h2 class="section-title fade-up">Join the waitlist</h2>
-    <p class="section-sub fade-up">Be among the first to access ነጋሪት when we launch. We will notify you directly.</p>
-    <div class="gold-line fade-up"></div>
-    <div class="waitlist-form fade-up">
-      <div id="wl-form">
-        <div class="form-row">
-          <input type="text" id="wl-name" placeholder="Your full name" />
-          <input type="email" id="wl-email" placeholder="Email address" />
-        </div>
-        <select id="wl-role">
-          <option value="" disabled selected>I am a...</option>
-          <option value="lawyer">Lawyer / Legal researcher</option>
-          <option value="judge">Judge / Court clerk</option>
-          <option value="student">Law student / Academic</option>
-          <option value="compliance">Business compliance officer</option>
-          <option value="government">Government / Policy maker</option>
-          <option value="journalist">Journalist / Civil society</option>
-          <option value="citizen">General citizen</option>
-          <option value="donor">Donor / Partner organization</option>
-        </select>
-        <button class="form-submit" onclick="submitWaitlist()">Reserve my place on the waitlist</button>
-        <p class="form-note">No spam. No fees. Just a notification when we launch.</p>
-      </div>
-      <div class="form-success" id="wl-success">
-        ✅ You are on the list! We will be in touch when ነጋሪት launches.<br/>
-        <span style="font-size:13px; opacity:0.8;">Meanwhile follow ሕጉ ምን ይላል? on TikTok and YouTube for legal insights.</span>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- CTA -->
-<div class="cta-section">
-  <h2 class="fade-up">Partner or fund ነጋሪት</h2>
-  <p class="fade-up">Are you an institution, donor, or organization working on access to justice in Ethiopia?<br/>We would love to hear from you.</p>
-  <div class="fade-up">
-    <a class="btn-navy" href="mailto:israkidan@gmail.com?subject=Partnership%20Inquiry%20—%20Negarit">Send a partnership inquiry</a>
-    <a class="btn-navy-outline" href="mailto:israkidan@gmail.com?subject=Funding%20Inquiry%20—%20Negarit">Discuss funding</a>
+<div class="sec" id="features">
+  <div class="ey" data-i18n="feat_ey">What ነጋሪት does</div>
+  <div class="h2" data-i18n="feat_h">Six tools that change how Ethiopia accesses law</div>
+  <div class="g3">
+    <div class="feat-card"><div class="fi fi-ink"><i class="ti ti-database"></i></div><div class="fn-amh">የሕግ ቤተ-መፃሕፍት</div><div class="fn" data-i18n="f1n">Centralized legal library</div><p class="fd" data-i18n="f1d">All federal laws, regulations, directives, and regional statutes with Negarit Gazette source citations and AKN permanent URLs.</p></div>
+    <div class="feat-card"><div class="fi fi-gold"><i class="ti ti-git-compare"></i></div><div class="fn-amh">የሕግ ማሻሻያ ክትትል</div><div class="fn" data-i18n="f2n">Amendment tracking</div><p class="fd" data-i18n="f2d">Every version of every law with side-by-side before/after comparisons and effective dates.</p></div>
+    <div class="feat-card"><div class="fi fi-green"><i class="ti ti-gavel"></i></div><div class="fn-amh">የፍርድ ቤት ውሳኔዎች</div><div class="fn" data-i18n="f3n">Court decisions</div><p class="fd" data-i18n="f3d">Federal Supreme Court cassation decisions with extracted legal principles and plain-language summaries.</p></div>
+    <div class="feat-card"><div class="fi fi-teal"><i class="ti ti-language"></i></div><div class="fn-amh">አማርኛ እና እንግሊዝኛ</div><div class="fn" data-i18n="f4n">Amharic & English</div><p class="fd" data-i18n="f4d">Full content and full UI in both languages. Switch the entire interface with one click.</p></div>
+    <div class="feat-card"><div class="fi fi-coral"><i class="ti ti-file-text"></i></div><div class="fn-amh">የሕግ ቅጾች</div><div class="fn" data-i18n="f5n">Legal form builder</div><p class="fd" data-i18n="f5d">Editable templates for contracts, affidavits, court pleadings — in Amharic and English, downloadable as PDF or Word.</p></div>
+    <div class="feat-card"><div class="fi fi-plum"><i class="ti ti-wifi-off"></i></div><div class="fn-amh">ያለ ኢንተርኔት ይስሩ</div><div class="fn" data-i18n="f6n">Offline access</div><p class="fd" data-i18n="f6d">Download law packs for offline use. Built for Ethiopia's connectivity reality.</p></div>
   </div>
 </div>
 
-<!-- FOOTER -->
-<footer>
-  <div class="footer-logo">ነጋሪት</div>
-  <p class="footer-tagline">Ethiopia's law, unified. · የኢትዮጵያ ሕጎች — ለሁሉም</p>
-  <div class="footer-links">
-    <a href="#features">Features</a>
-    <a href="#users">Who it's for</a>
-    <a href="#founder">About</a>
-    <a href="#waitlist">Join waitlist</a>
-    <a href="mailto:israkidan@gmail.com">Contact</a>
+<div class="divider"></div>
+
+<div class="sec" id="users">
+  <div class="ey" data-i18n="users_ey">Who it's for</div>
+  <div class="h2" data-i18n="users_h">Built for everyone</div>
+  <p class="desc" data-i18n="users_desc">From the Federal Supreme Court to the citizen who just needs to understand their rights.</p>
+  <div class="user-grid">
+    <div class="user-card"><div class="uc-icon"><i class="ti ti-briefcase"></i></div><div><div class="uc-name" data-i18n="u1">Lawyers &amp; legal researchers</div><div class="uc-note" data-i18n="u1n">Case prep, statute research</div></div></div>
+    <div class="user-card"><div class="uc-icon"><i class="ti ti-scale"></i></div><div><div class="uc-name" data-i18n="u2">Judges &amp; court clerks</div><div class="uc-note" data-i18n="u2n">Cassation lookup, ruling drafts</div></div></div>
+    <div class="user-card"><div class="uc-icon"><i class="ti ti-school"></i></div><div><div class="uc-name" data-i18n="u3">Law students &amp; academics</div><div class="uc-note" data-i18n="u3n">Moot court, thesis, research</div></div></div>
+    <div class="user-card"><div class="uc-icon"><i class="ti ti-building"></i></div><div><div class="uc-name" data-i18n="u4">Business compliance officers</div><div class="uc-note" data-i18n="u4n">Regulatory tracking, audits</div></div></div>
+    <div class="user-card"><div class="uc-icon"><i class="ti ti-landmark"></i></div><div><div class="uc-name" data-i18n="u5">Government &amp; policy makers</div><div class="uc-note" data-i18n="u5n">Drafting, inter-agency reference</div></div></div>
+    <div class="user-card"><div class="uc-icon"><i class="ti ti-microphone"></i></div><div><div class="uc-name" data-i18n="u6">Journalists &amp; civil society</div><div class="uc-note" data-i18n="u6n">Rights reporting, accountability</div></div></div>
+    <div class="user-card"><div class="uc-icon"><i class="ti ti-users"></i></div><div><div class="uc-name" data-i18n="u7">General citizens</div><div class="uc-note" data-i18n="u7n">Know your rights, Amharic summaries</div></div></div>
   </div>
-  <div class="footer-social">
-    <a class="social-btn" href="https://www.tiktok.com/@higuminyilal_iwh" target="_blank">📱 TikTok · ሕጉ ምን ይላል?</a>
-    <a class="social-btn" href="https://www.youtube.com/@higuMinYilal" target="_blank">▶️ YouTube · ሕጉ ምን ይላል?</a>
-    <a class="social-btn" href="mailto:israkidan@gmail.com">✉️ israkidan@gmail.com</a>
+</div>
+
+<div class="divider"></div>
+
+<div class="sec" id="founder">
+  <div class="ey" data-i18n="founder_ey">Who is behind this</div>
+  <div class="h2" data-i18n="founder_h">Built by a legal professional, for Ethiopia</div>
+  <div class="founder">
+    <div class="founder-av">ኢ</div>
+    <div class="founder-body">
+      <div class="founder-name">Israel Woldekidan Haileyesus</div>
+      <div class="founder-role">Legal Professional · Corporate Lawyer · Legal Researcher</div>
+      <p class="founder-bio"><span data-i18n="founder_bio1">A legal professional based in Addis Ababa with over a decade of experience in legal practice and university teaching. LLM in Business and Corporate Law from Bahir Dar University and multiple published peer-reviewed legal research papers and international certifications in FinTech Law, AI & Law, Privacy Law, and Digital Governance.</span><br><br><span data-i18n="founder_bio2">Founder of ሕጉ ምን ይላል? (What Does the Law Say?) — an Amharic-language legal education channel on TikTok and YouTube making Ethiopian law accessible to ordinary citizens. ነጋሪት is the natural extension of that mission.</span></p>
+      <div class="creds">
+        <span class="cred">LLM · Bahir Dar University</span><span class="cred">FinTech Law · Duke</span>
+        <span class="cred">AI &amp; Law · Lund</span><span class="cred">Privacy Law · UPenn</span>
+        <span class="cred">Digital Governance · Leeds</span><span class="cred">5 Published Papers</span>
+      </div>
+      <div class="founder-social">
+        <a class="soc-link" href="https://www.tiktok.com/@higuminyilal_iwh" target="_blank" rel="noopener"><i class="ti ti-brand-tiktok"></i>ሕጉ ምን ይላል? on TikTok</a>
+        <a class="soc-link" href="https://www.youtube.com/@higuMinYilal" target="_blank" rel="noopener"><i class="ti ti-brand-youtube"></i>YouTube channel</a>
+        <a class="soc-link" href="mailto:israkidan@gmail.com"><i class="ti ti-mail"></i>israkidan@gmail.com</a>
+      </div>
+    </div>
   </div>
-  <p class="footer-copy">Built in Addis Ababa, Ethiopia · © 2026 ነጋሪት · All rights reserved</p>
+</div>
+
+<div class="divider"></div>
+
+<div class="sec">
+  <div class="ey" data-i18n="sus_ey">Sustainability</div>
+  <div class="h2" data-i18n="sus_h">How ነጋሪት sustains itself</div>
+  <p class="desc" data-i18n="sus_desc">Core access remains permanently free for citizens. Revenue comes from the institutions that benefit most.</p>
+  <div class="sus-grid">
+    <div class="sus-card"><i class="ti ti-star" style="font-size:20px;color:var(--gold2)"></i><div class="sus-name" data-i18n="sus1n">Premium subscriptions</div><p class="sus-desc" data-i18n="sus1d">Advanced search filters, bulk downloads, and API access for law firms and corporations.</p></div>
+    <div class="sus-card"><i class="ti ti-building-bank" style="font-size:20px;color:var(--blue)"></i><div class="sus-name" data-i18n="sus2n">Institutional licensing</div><p class="sus-desc" data-i18n="sus2d">Annual licenses for universities, government ministries, and court systems.</p></div>
+    <div class="sus-card"><i class="ti ti-file-invoice" style="font-size:20px;color:var(--green)"></i><div class="sus-name" data-i18n="sus3n">Legal form services</div><p class="sus-desc" data-i18n="sus3d">Paid certified document delivery integrated with ministry e-services.</p></div>
+    <div class="sus-card"><i class="ti ti-world" style="font-size:20px;color:var(--mid)"></i><div class="sus-name" data-i18n="sus4n">Donor &amp; grant funding</div><p class="sus-desc" data-i18n="sus4d">UNDP, EU, GIZ, and rule-of-law programs actively fund platforms like ነጋሪት.</p></div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<div class="sec sec-pb" id="waitlist">
+  <div class="waitlist-box">
+    <h2 class="wl-title" data-i18n="wl_h">Join the waitlist</h2>
+    <div class="wl-amh">ዝርዝሩ ላይ ይቀላቀሉ</div>
+    <p class="wl-sub" data-i18n="wl_sub">Be among the first to access ነጋሪት when we launch. We will notify you directly — no spam, no fees.</p>
+    <form class="wl-form" onsubmit="submitWL(event)" novalidate>
+      <input class="wl-email" id="wl-email" type="email" data-i18n-ph="wl_ph" placeholder="your@email.com" required/>
+      <select class="wl-role" id="wl-role">
+        <option value="" data-i18n="wl_role_ph">I am a…</option>
+        <option data-i18n="wl_role1">Lawyer / Legal researcher</option>
+        <option data-i18n="wl_role2">Judge / Court clerk</option>
+        <option data-i18n="wl_role3">Law student / Academic</option>
+        <option data-i18n="wl_role4">Business compliance officer</option>
+        <option data-i18n="wl_role5">Government / Policy maker</option>
+        <option data-i18n="wl_role6">Journalist / Civil society</option>
+        <option data-i18n="wl_role7">General citizen</option>
+        <option data-i18n="wl_role8">Donor / Partner organization</option>
+      </select>
+      <button class="wl-submit" type="submit" data-i18n="wl_btn">Reserve my place</button>
+    </form>
+    <div class="wl-success" id="wl-success"></div>
+    <p class="wl-note" data-i18n="wl_note">No spam. No fees. Just a notification when we launch.</p>
+    <div class="wl-socials">
+      <a class="soc-link" href="https://www.tiktok.com/@higuminyilal_iwh" target="_blank" rel="noopener"><i class="ti ti-brand-tiktok"></i>TikTok · ሕጉ ምን ይላል?</a>
+      <a class="soc-link" href="https://www.youtube.com/@higuMinYilal" target="_blank" rel="noopener"><i class="ti ti-brand-youtube"></i>YouTube · ሕጉ ምን ይላል?</a>
+    </div>
+  </div>
+</div>
+
+<div class="sec-pb" style="padding-top:0">
+  <div class="partner-box">
+    <div><h3 data-i18n="partner_h">Partner or fund ነጋሪት</h3><p data-i18n="partner_desc">Are you an institution, donor, or organization working on access to justice in Ethiopia? We would love to hear from you.</p></div>
+    <div class="pb-btns">
+      <a href="mailto:israkidan@gmail.com?subject=Partnership%20Inquiry%20—%20Negarit" class="btn-outline"><i class="ti ti-handshake"></i><span data-i18n="partner_btn1">Send a partnership inquiry</span></a>
+      <a href="mailto:israkidan@gmail.com?subject=Funding%20—%20Negarit" class="btn-outline"><i class="ti ti-heart"></i><span data-i18n="partner_btn2">Discuss funding</span></a>
+    </div>
+  </div>
+</div>
+</div>
+
+<footer class="footer">
+  <div class="footer-grid">
+    <div><div class="fb-brand"><div class="nav-logo" style="width:28px;height:28px"><i class="ti ti-scale" style="font-size:14px"></i></div>ነጋሪት<span style="color:var(--gold)">.</span></div><p class="fb-tag"><span data-i18n="footer_tag">Ethiopia's law, unified.</span><br><span style="font-family:'Noto Serif Ethiopic',serif" data-i18n="footer_tagam">ሕጋዊ መረጃ ለሁሉም</span><br><br><span data-i18n="footer_tagline">The drum that once called Ethiopians to hear the law now calls them to find it.</span></p></div>
+    <div class="fl"><div class="fh" data-i18n="fl1h">Platform</div><a href="#search-section" data-i18n="fl1a">Search laws</a><a href="#library" data-i18n="fl1b">Law library</a><a href="#diff-section" data-i18n="fl1c">Amendment tracker</a><a href="#features" data-i18n="fl1d">Court decisions</a><a href="#features" data-i18n="fl1e">Offline access</a></div>
+    <div class="fl"><div class="fh" data-i18n="fl2h">Company</div><a href="#founder" data-i18n="fl2a">About</a><a href="mailto:israkidan@gmail.com?subject=Partnership%20Inquiry%20—%20Negarit" data-i18n="fl2b">Partner with us</a><a href="mailto:israkidan@gmail.com?subject=Funding%20—%20Negarit" data-i18n="fl2c">Fund ነጋሪት</a><a href="mailto:israkidan@gmail.com" data-i18n="fl2d">Contact</a></div>
+    <div class="fl"><div class="fh" data-i18n="fl3h">Follow</div><a href="https://www.tiktok.com/@higuminyilal_iwh" target="_blank" rel="noopener" data-i18n="fl3a">TikTok · ሕጉ ምን ይላል?</a><a href="https://www.youtube.com/@higuMinYilal" target="_blank" rel="noopener" data-i18n="fl3b">YouTube · ሕጉ ምን ይላል?</a><a href="mailto:israkidan@gmail.com" data-i18n="fl3c">israkidan@gmail.com</a></div>
+  </div>
+  <div class="footer-bottom">
+    <div class="fcopy" data-i18n="fcopy">Built in Addis Ababa, Ethiopia · © 2026 ነጋሪት · All rights reserved</div>
+    <div class="flang"><button class="flp on" onclick="applyLang('en')">English</button><button class="flp" onclick="applyLang('am')">አማርኛ</button></div>
+  </div>
 </footer>
 
+<button class="btt" id="btt" onclick="window.scrollTo({top:0,behavior:'smooth'})"><i class="ti ti-arrow-up"></i></button>
+
+<script src="laws-data.js"></script>
 <script>
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
-  }, { threshold: 0.12 });
-  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
-
-  function submitWaitlist() {
-    const name = document.getElementById('wl-name').value.trim();
-    const email = document.getElementById('wl-email').value.trim();
-    const role = document.getElementById('wl-role').value;
-    if (!name || !email || !role) {
-      alert('Please fill in all fields before joining the waitlist.');
-      return;
-    }
-    if (!email.includes('@')) {
-      alert('Please enter a valid email address.');
-      return;
-    }
-    const subject = encodeURIComponent('Negarit Waitlist — ' + role);
-    const body = encodeURIComponent('Name: ' + name + '\nEmail: ' + email + '\nRole: ' + role);
-    window.location.href = 'mailto:israkidan@gmail.com?subject=' + subject + '&body=' + body;
-    document.getElementById('wl-form').style.display = 'none';
-    document.getElementById('wl-success').style.display = 'block';
-  }
+  renderLaws(LAWS);
+  window.addEventListener('scroll',()=>document.getElementById('btt').classList.toggle('show',window.scrollY>500));
 </script>
-
 </body>
 </html>
